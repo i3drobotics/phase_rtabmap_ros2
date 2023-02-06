@@ -1,6 +1,6 @@
 # phase_rtabmap_foxy
 
-cd/dev_ws/src
+cd /dev_ws/src
 git clone https://github.com/i3drobotics/phase_rtabmap_foxy.git
 git clone --branch foxy https://github.com/ros-perception/image_pipeline.git
 git clone --branch foxy https://github.com/ros-perception/image_common.git
