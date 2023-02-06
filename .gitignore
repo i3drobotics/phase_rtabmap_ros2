@@ -1,0 +1,12 @@
+/__pycache
+/build
+/install
+/log
+*.log
+/test
+/resource
+/launch/build
+/launch*.log
+/launch/install
+/launch/log
+/launch/__pycache__
