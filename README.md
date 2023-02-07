@@ -1,5 +1,10 @@
 # phase_rtabmap_foxy
 Demonstration of mapping with Phase camera in ROS2 foxy.
+The package is currently working in Linux.
+
+## Install pyphase
+Install pyphase from the link below
+https://github.com/i3drobotics/pyphase
 
 ## Build ROS2 workspace
 ```bash
