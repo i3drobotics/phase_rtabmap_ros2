@@ -1,12 +1,6 @@
 # phase_rtabmap_foxy
 Demonstration of mapping with Phase camera in ROS2 foxy.
 
-Install rtabmap_ros from the link below
-https://github.com/introlab/rtabmap_ros
-```bash
-sudo apt install ros-noetic-rtabmap-ros
-```
-
 ## Build ROS2 workspace
 ```bash
 mkdir -p ~/dev_ws/src
