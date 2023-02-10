@@ -11,7 +11,7 @@ https://github.com/i3drobotics/pyphase
 ```bash
 mkdir -p ~/dev_ws/src
 cd ~/dev_ws
-source /opt/ros/${ROS_DISTRO}/setup.bash
+source /opt/ros/foxy/setup.bash
 git clone --branch foxy https://github.com/ros-perception/image_pipeline.git src/image_pipeline
 git clone --branch foxy https://github.com/ros-perception/image_common.git src/image_common
 git clone -- branch foxy-devel https://github.com/introlab/rtabmap.git src/rtabmap
