@@ -23,7 +23,7 @@ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 
 ## Run RTabmap Scan
 ```bash
-cd src/phase_rtabmap_foxy_launch
+cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy
 ros2 launch phase_rtabmap_launch.py
 ```
 ###
