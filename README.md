@@ -3,7 +3,7 @@ Demonstration of mapping with Phase camera in ROS2 foxy.
 The package is currently runs on Linux.
 
 ## Install pyphase
-Install pyphase from the link below
+Install pyphase, follow Linux instruction from the link below
 
 https://github.com/i3drobotics/pyphase
 
