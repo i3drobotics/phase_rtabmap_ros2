@@ -2,7 +2,7 @@
 # cd dev_ws
 # colcon build --packages-select phase_rtabmap_foxy
 # . install/setup.bash
-# ros2 launch phase_rtabmap_launch.py
+# ros2 run phase_rtabmap_foxy phase_camera 
 
 import rclpy
 from rclpy.node import Node
@@ -10,12 +10,9 @@ from std_msgs.msg import Header
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import CameraInfo
 from sensor_msgs.msg import PointCloud2, PointField
-
-import cv2
 from cv_bridge import CvBridge
 
 import phase.pyphase as phase
-from phase.pyphase.stereocamera import createStereoCamera
 
 import os
 import numpy as np
@@ -34,18 +31,16 @@ class PhaseCameraNode(Node):
         self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_USB
         self.cv_bridge = CvBridge()
 
-        #script_path1 = os.path.dirname(os.path.realpath(__file__))
-
-        script_path = "/home/i3dr/dev_ws/src/titania_rtabmap_foxy/titania_rtabmap_foxy"
+        script_path = os.path.dirname(os.path.realpath(__file__))
+        package_name = "phase_rtabmap_foxy"
+        #script_path = "/home/i3dr/dev_ws/src/titania_rtabmap_foxy/titania_rtabmap_foxy"
 
         # Define calibration files
-        cal_folder = os.path.join(script_path, "cal")
+        cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
         left_yaml = os.path.join(cal_folder, "left_24316.yaml")
         right_yaml = os.path.join(cal_folder, "right_24316.yaml")
         
         # Define parameters for read process
-        downsample_factor = 1.0
-        display_downsample = 0.25
         self.exposure_value_ = 25000
         
         # Check for I3DRSGM license
@@ -91,15 +86,6 @@ class PhaseCameraNode(Node):
         self.pub_img_right_ = self.create_publisher(Image, 'right/image_rect', 100)
         self.pub_depth_ = self.create_publisher(Image, 'depth/image', 100)
         self.pub_pointcloud_ = self.create_publisher(PointCloud2, 'points2', 100)
-
-        # self.pub_img_rawleft_mono_ = self.create_publisher(Image, 'left/image_mono', 100)
-        # self.pub_img_rawright_mono_ = self.create_publisher(Image, 'right/image_mono', 100)
-        # self.pub_img_rawleft_color_ = self.create_publisher(Image, 'left/image_color', 100)
-        # self.pub_img_rawright_color_ = self.create_publisher(Image, 'right/image_color', 100)
-        # self.pub_img_left_color_ = self.create_publisher(Image, 'left/image_rect_color', 100)
-        # self.pub_img_right_color_ = self.create_publisher(Image, 'right/image_rect_color', 100)
-        
-
         
         # Publish camera name message every 500ms
         self.timer_read = self.create_timer(0.1, self.read_frame)
@@ -205,13 +191,6 @@ class PhaseCameraNode(Node):
             colors = rect_img_left[mask_map]
             colors = colors.reshape(-1,3)
             points = np.hstack([points.reshape(-1,3),colors])
-            # fields = [PointField(name='x', offset=0, datatype=PointField.FLOAT32, count=1),
-            #     PointField(name='y', offset=4, datatype=PointField.FLOAT32, count=1),
-            #     PointField(name='z', offset=8, datatype=PointField.FLOAT32, count=1),
-            #     PointField(name='r', offset=12, datatype=PointField.FLOAT32, count=1),
-            #     PointField(name='g', offset=16, datatype=PointField.FLOAT32, count=1),
-            #     PointField(name='b', offset=20, datatype=PointField.FLOAT32, count=1)]     
-            #p = point_cloud2.create_cloud(header_pc, fields, points)
 
             header = Header()
             header.frame_id = "phase"
@@ -229,15 +208,11 @@ class PhaseCameraNode(Node):
             header_pc.frame_id = "map"
             header_pc.stamp = header.stamp
 
-            # pc_msg = PointCloud2()
-            # pc_msg.header = header_pc
-            # pc_msg.data = points
-            # pc_msg.fields = fields
             pc_msg = self.point_cloud(points,'map')
 
             self.left_camerainfo_.header = header_ci
             self.right_camerainfo_.header = header_ci
-            pc_msg.header = header_pc
+            pc_msg.header = header
 
             self.publish_image(self.pub_img_rawleft_, read_result.left, header = header)
             self.publish_image(self.pub_img_rawright_, read_result.right, header = header)
@@ -247,22 +222,7 @@ class PhaseCameraNode(Node):
             self.pub_pointcloud_.publish(pc_msg)
             self.pub_caminfo_left_.publish(self.left_camerainfo_)
             self.pub_caminfo_right_.publish(self.right_camerainfo_)
-            # img_left_mono = np.zeros((1200, 1920, 1), dtype=np.uint8)
-            # img_right_mono = np.zeros((1200, 1920, 1), dtype=np.uint8)
 
-            # phase.toMono(read_result.left,img_left_mono)                                              
-            # phase.toMono(read_result.right, img_right_mono) 
-
-            # # self.publish_image(self.pub_img_rawleft_mono_, img_left_mono, header = header)
-            # # self.publish_image(self.pub_img_rawright_mono_, img_right_mono, header = header)                                                    
-            # self.publish_image(self.pub_img_rawleft_color_, read_result.left, header = header)
-            # self.publish_image(self.pub_img_rawright_color_, read_result.right, header = header)
-            # self.publish_image(self.pub_img_left_color_, rect_img_left, header = header)
-            # self.publish_image(self.pub_img_right_color_, rect_img_right, header = header)
-
-
-            # cv2.imshow('Depth', disparity)
-            # cv2.waitKey(1)
         else:
             self.get_logger().warn("Failed to read stereo result")
 

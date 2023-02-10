@@ -1,14 +1,12 @@
 # ros2 launch phase_rtabmap_launch.py
-from launch_ros.substitutions import FindPackageShare
+
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable, LogInfo, OpaqueFunction
-from launch.substitutions import LaunchConfiguration, ThisLaunchFileDir, PythonExpression
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import PathJoinSubstitution, TextSubstitution
 from launch.actions import GroupAction
 from launch_ros.actions import PushRosNamespace
+import os
 
 def generate_launch_description():
     
@@ -36,14 +34,14 @@ def generate_launch_description():
         package='tf2_ros',
         executable="static_transform_publisher",
         name="phase_trans",
-        arguments = ["0", "0", "0", "1.5707963267948966", "0" "1.5707963267948966", "base_link", "phase", "100"]
+        arguments = ["0", "0", "0", "-1.5707963267948966", "0", "-1.5707963267948966", "points2", "phase", "100"]
     )
     launch_stereo_image_proc_with_ns = GroupAction(
         actions=[
             PushRosNamespace('stereo_camera'),
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([
-                        '/home/i3dr/dev_ws/src/image_pipeline/stereo_image_proc/launch/stereo_image_proc.launch.py'
+                        'stereo_image_proc.launch.py'
                 ]),
                 launch_arguments={
                     'approximate_sync': 'True'
@@ -53,7 +51,7 @@ def generate_launch_description():
     )
     launch_rtabmap = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-                '/home/i3dr/dev_ws/src/rtabmap_ros/launch/ros2/rtabmap.launch.py'
+                'rtabmap.launch.py'
         ]),
         launch_arguments={
             'arg2': '--delete_db_on_start',
