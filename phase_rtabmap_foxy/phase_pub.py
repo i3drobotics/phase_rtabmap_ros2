@@ -17,9 +17,17 @@ import phase.pyphase as phase
 import os
 import numpy as np
 import yaml
+import argparse
 
 # PhaseCameraNode class for camera data capture
 class PhaseCameraNode(Node):
+
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('--left_serial', type=str, default="40098270", help="Left Serial of Camera")
+    # parser.add_argument('--right_serial', type=str, default="40098281", help="Right Serial of Camera")
+    # parser.add_argument('--camera_name', type=str, default="746974616e24316", help="Camera Name of Camera")
+    # parser.add_argument('--camera_type', type=str, default="titania", help="titania or phobos")
+    # args = parser.parse_args()
 
     def __init__(self):
         super().__init__("phase_camera")
@@ -27,9 +35,9 @@ class PhaseCameraNode(Node):
         # self.left_serial_ = "40098270"
         # self.right_serial_ = "40098281"
         # self.camera_name_ = "746974616e24316"
-        camera_name = "Basler acA2440-35uc"
-        left_serial = "23638717"
-        right_serial = "23638711"
+        self.camera_name = "Basler acA2440-35uc"
+        self.left_serial = "23638717"
+        self.right_serial = "23638711"
         self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_PHOBOS
         self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_USB
         self.cv_bridge = CvBridge()
