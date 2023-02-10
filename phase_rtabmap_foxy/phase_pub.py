@@ -24,10 +24,13 @@ class PhaseCameraNode(Node):
     def __init__(self):
         super().__init__("phase_camera")
         self.count_ = 0
-        self.left_serial_ = "40098270"
-        self.right_serial_ = "40098281"
-        self.camera_name_ = "746974616e24316"
-        self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_TITANIA
+        # self.left_serial_ = "40098270"
+        # self.right_serial_ = "40098281"
+        # self.camera_name_ = "746974616e24316"
+        camera_name = "Basler acA2440-35uc"
+        left_serial = "23638717"
+        right_serial = "23638711"
+        self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_PHOBOS
         self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_USB
         self.cv_bridge = CvBridge()
 
@@ -37,8 +40,8 @@ class PhaseCameraNode(Node):
 
         # Define calibration files
         cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
-        left_yaml = os.path.join(cal_folder, "left_24316.yaml")
-        right_yaml = os.path.join(cal_folder, "right_24316.yaml")
+        left_yaml = os.path.join(cal_folder, "left_amrc.yaml")
+        right_yaml = os.path.join(cal_folder, "right_amrc.yaml")
         
         # Define parameters for read process
         self.exposure_value_ = 25000
@@ -69,7 +72,7 @@ class PhaseCameraNode(Node):
             self.left_serial_, self.right_serial_, self.camera_name_,
             self.device_type_, self.interface_type_
         )
-        self.cam_ = phase.stereocamera.TitaniaStereoCamera(device_info)
+        self.cam_ = phase.stereocamera.PhobosStereoCamera(device_info)
 
         self.left_camerainfo_ = self.yaml_to_camerainfo(left_yaml)
         self.right_camerainfo_ = self.yaml_to_camerainfo(right_yaml)
