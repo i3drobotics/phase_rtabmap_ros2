@@ -23,25 +23,33 @@ import argparse
 class PhaseCameraNode(Node):
 
     def __init__(self):
-        # parser = argparse.ArgumentParser()
-        # parser.add_argument('--left_serial', type=str, default="40098270", help="Left Serial of Camera")
-        # parser.add_argument('--right_serial', type=str, default="40098281", help="Right Serial of Camera")
-        # parser.add_argument('--camera_name', type=str, default="746974616e24316", help="Camera Name of Camera")
-        # parser.add_argument('--camera_type', type=str, default="titania", help="titania or phobos")
-        # args = parser.parse_args()
-
         super().__init__("phase_camera")
         self.count_ = 0
+
+        parser = argparse.ArgumentParser()
+        parser.add_argument('--left_serial', type=str, default="40098271", help="Left Serial of Camera")
+        parser.add_argument('--right_serial', type=str, default="40098282", help="Right Serial of Camera")
+        parser.add_argument('--camera_name', type=str, default="746974616e24317", help="Camera Name of Camera")
+        parser.add_argument('--camera_type', type=str, default="titania", help="titania or phobos")
+        parser.add_argument('--exposure', type=int, default=25000, help="Exposure value")
+        args, unknown = parser.parse_known_args()
+        
         # self.left_serial_ = "40098270"
         # self.right_serial_ = "40098281"
         # self.camera_name_ = "746974616e24316"
-        self.camera_name_ = "Basler acA2440-35uc"
-        self.left_serial_ = "23638717"
-        self.right_serial_ = "23638711"
-        # self.camera_name_ = args.camera_name
-        # self.left_serial_ = args.left_serial
-        # self.right_serial_ = args.left_serial
-        self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_PHOBOS
+        # self.camera_name_ = "Basler acA2440-35uc"
+        # self.left_serial_ = "23638717"
+        # self.right_serial_ = "23638711"
+        
+        self.left_serial_ = args.left_serial
+        self.right_serial_ = args.right_serial
+        self.camera_name_ = args.camera_name
+
+        if args.camera_type == 'titania':
+            self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_TITANIA
+        elif args.camera_type == 'phobos':
+            self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_PHOBOS
+
         self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_USB
         self.cv_bridge = CvBridge()
 
@@ -55,7 +63,7 @@ class PhaseCameraNode(Node):
         right_yaml = os.path.join(cal_folder, "right_amrc.yaml")
         
         # Define parameters for read process
-        self.exposure_value_ = 25000
+        self.exposure_value_ = args.exposure
         
         # Check for I3DRSGM license
         license_valid = phase.stereomatcher.StereoI3DRSGM().isLicenseValid()
@@ -83,7 +91,11 @@ class PhaseCameraNode(Node):
             self.left_serial_, self.right_serial_, self.camera_name_,
             self.device_type_, self.interface_type_
         )
-        self.cam_ = phase.stereocamera.PhobosStereoCamera(device_info)
+
+        if args.camera_type == 'titania':
+            self.cam_ = phase.stereocamera.TitaniaStereoCamera(device_info)
+        elif args.camera_type == 'phase':
+            self.cam_ = phase.stereocamera.PhobosStereoCamera(device_info)
 
         self.left_camerainfo_ = self.yaml_to_camerainfo(left_yaml)
         self.right_camerainfo_ = self.yaml_to_camerainfo(right_yaml)
