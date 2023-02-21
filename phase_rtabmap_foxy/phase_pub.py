@@ -27,9 +27,9 @@ class PhaseCameraNode(Node):
         self.count_ = 0
 
         parser = argparse.ArgumentParser()
-        parser.add_argument('--left_serial', type=str, default="40098271", help="Left Serial of Camera")
-        parser.add_argument('--right_serial', type=str, default="40098282", help="Right Serial of Camera")
-        parser.add_argument('--camera_name', type=str, default="746974616e24317", help="Camera Name of Camera")
+        parser.add_argument('--left_serial', type=str, default="40098270", help="Left Serial of Camera")
+        parser.add_argument('--right_serial', type=str, default="40098281", help="Right Serial of Camera")
+        parser.add_argument('--camera_name', type=str, default="746974616e24316", help="Camera Name of Camera")
         parser.add_argument('--camera_type', type=str, default="titania", help="titania or phobos")
         parser.add_argument('--exposure', type=int, default=25000, help="Exposure value")
         args, unknown = parser.parse_known_args()
@@ -59,8 +59,8 @@ class PhaseCameraNode(Node):
 
         # Define calibration files
         cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
-        left_yaml = os.path.join(cal_folder, "left_amrc.yaml")
-        right_yaml = os.path.join(cal_folder, "right_amrc.yaml")
+        left_yaml = os.path.join(cal_folder, "left_24324.yaml")
+        right_yaml = os.path.join(cal_folder, "right_24324.yaml")
         
         # Define parameters for read process
         self.exposure_value_ = args.exposure
@@ -219,7 +219,7 @@ class PhaseCameraNode(Node):
             points = np.hstack([points.reshape(-1,3),colors])
 
             header = Header()
-            header.frame_id = "phase"
+            header.frame_id = "camera_link"
             header.stamp = self.get_clock().now().to_msg()
 
             header_dp = Header()
@@ -231,21 +231,21 @@ class PhaseCameraNode(Node):
             header_ci.stamp = header.stamp
 
             header_pc = Header()
-            header_pc.frame_id = "map"
+            #header_pc.frame_id = "map"
             header_pc.stamp = header.stamp
 
-            pc_msg = self.point_cloud(points,'map')
+            self.pc_msg = self.point_cloud(points, 'map')
 
-            self.left_camerainfo_.header = header_ci
-            self.right_camerainfo_.header = header_ci
-            pc_msg.header = header
+            self.left_camerainfo_.header = header
+            self.right_camerainfo_.header = header
+            #self.pc_msg.header = header_pc
 
             self.publish_image(self.pub_img_rawleft_, read_result.left, header = header)
             self.publish_image(self.pub_img_rawright_, read_result.right, header = header)
             self.publish_image(self.pub_img_left_, rect_img_left, header = header)
             self.publish_image(self.pub_img_right_, rect_img_right, header = header)
-            self.publish_image(self.pub_depth_, depth, encoding = "32FC1", header = header_dp)
-            self.pub_pointcloud_.publish(pc_msg)
+            self.publish_image(self.pub_depth_, depth, encoding = "32FC1", header = header)
+            self.pub_pointcloud_.publish(self.pc_msg)
             self.pub_caminfo_left_.publish(self.left_camerainfo_)
             self.pub_caminfo_right_.publish(self.right_camerainfo_)
 
