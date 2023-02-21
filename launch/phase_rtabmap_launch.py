@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # cd ~/dev_ws
 # colcon build --packages-select phase_rtabmap_foxy
 # . install/setup.bash
@@ -9,8 +10,6 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import GroupAction
-from launch_ros.actions import PushRosNamespace
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import TextSubstitution
