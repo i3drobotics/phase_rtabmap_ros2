@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""!
+ @authors KinYip Chan (kinyip@i3drobotics.com)
+ @date 2023-02-21
+ @copyright Copyright (c) I3D Robotics Ltd, 2021
+ @file phase_pub.py
+ @brief ROS2 foxy phase stereo image publish
+"""
 # cd dev_ws
 # colcon build --packages-select phase_rtabmap_foxy
 # . install/setup.bash
@@ -208,33 +215,25 @@ class PhaseCameraNode(Node):
             disparity = match_result.disparity
             depth = phase.disparity2depth(disparity, self.calibration_.getQ())
 
-            # Convert disparity into 3D pointcloud
-            xyz = phase.disparity2xyz(
-                disparity, self.calibration_.getQ())
-            mask_map = disparity > disparity.min()
 
-            points = xyz[mask_map]
-            colors = rect_img_left[mask_map]
-            colors = colors.reshape(-1,3)
-            points = np.hstack([points.reshape(-1,3),colors])
 
             header = Header()
             header.frame_id = "camera_link"
             header.stamp = self.get_clock().now().to_msg()
 
-            header_dp = Header()
-            header_dp.frame_id = "depth"
-            header_dp.stamp = header.stamp
+            # header_dp = Header()
+            # header_dp.frame_id = "depth"
+            # header_dp.stamp = header.stamp
 
-            header_ci = Header()
-            header_ci.frame_id = "camera_info"
-            header_ci.stamp = header.stamp
+            # header_ci = Header()
+            # header_ci.frame_id = "camera_info"
+            # header_ci.stamp = header.stamp
 
-            header_pc = Header()
-            #header_pc.frame_id = "map"
-            header_pc.stamp = header.stamp
+            # header_pc = Header()
+            # #header_pc.frame_id = "map"
+            # header_pc.stamp = header.stamp
 
-            self.pc_msg = self.point_cloud(points, 'map')
+            # self.pc_msg = self.point_cloud(points, 'map')
 
             self.left_camerainfo_.header = header
             self.right_camerainfo_.header = header
@@ -245,7 +244,7 @@ class PhaseCameraNode(Node):
             self.publish_image(self.pub_img_left_, rect_img_left, header = header)
             self.publish_image(self.pub_img_right_, rect_img_right, header = header)
             self.publish_image(self.pub_depth_, depth, encoding = "32FC1", header = header)
-            self.pub_pointcloud_.publish(self.pc_msg)
+            # self.pub_pointcloud_.publish(self.pc_msg)
             self.pub_caminfo_left_.publish(self.left_camerainfo_)
             self.pub_caminfo_right_.publish(self.right_camerainfo_)
 
