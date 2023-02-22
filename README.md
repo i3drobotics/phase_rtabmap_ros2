@@ -33,3 +33,8 @@ cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy
 ros2 launch phase_rtabmap_launch.py left_serial:=23638717 right_serial:=23638711 camera_name:=Basler acA2440-35uc device_type:=phobos interface_type:=usb exposure:=25000
 ```
 ###
+
+## Troubleshoot for GigE network configuration
+For Network Configuration, see the link below for troubleshooting
+
+https://docs.baslerweb.com/network-configuration-(gige-cameras)
