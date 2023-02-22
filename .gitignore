@@ -10,3 +10,4 @@
 /launch/install
 /launch/log
 /launch/__pycache__
+/cal/*.yaml

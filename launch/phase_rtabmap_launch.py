@@ -4,7 +4,7 @@
 # . install/setup.bash
 # cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy/
 # ros2 launch phase_rtabmap_launch.py
-# ros2 launch phase_rtabmap_launch.py left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 camera_type:=titania exposure:=10000
+# ros2 launch phase_rtabmap_launch.py left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:= usb exposure:=10000
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -26,8 +26,11 @@ def generate_launch_description():
     camera_name_launch_arg = DeclareLaunchArgument(
         "camera_name", default_value=TextSubstitution(text="Basler acA2440-35uc")
     )
-    camera_type_launch_arg = DeclareLaunchArgument(
-        "camera_type", default_value=TextSubstitution(text="phobos")
+    device_type_launch_arg = DeclareLaunchArgument(
+        "device_type", default_value=TextSubstitution(text="phobos")
+    )
+    interface_type_launch_arg = DeclareLaunchArgument(
+        "interface_type", default_value=TextSubstitution(text="usb")
     )
     exposure_launch_arg = DeclareLaunchArgument(
         "exposure", default_value=TextSubstitution(text="25000")
@@ -36,7 +39,8 @@ def generate_launch_description():
     left_serial_arg = LaunchConfiguration("left_serial")
     right_serial_arg = LaunchConfiguration("right_serial")
     camera_name_arg = LaunchConfiguration("camera_name")
-    camera_type_arg = LaunchConfiguration("camera_type")
+    device_type_arg = LaunchConfiguration("device_type")
+    interface_type_arg = LaunchConfiguration("interface_type")
     exposure_arg = LaunchConfiguration("exposure")
 
     
@@ -49,7 +53,8 @@ def generate_launch_description():
             "--left_serial", left_serial_arg,
             "--right_serial", right_serial_arg,
             "--camera_name", camera_name_arg,
-            "--camera_type", camera_type_arg, 
+            "--device_type", device_type_arg,
+            "--interface_type", interface_type_arg, 
             "--exposure", exposure_arg
             ],
     )
@@ -80,7 +85,8 @@ def generate_launch_description():
         left_serial_launch_arg,
         right_serial_launch_arg,
         camera_name_launch_arg,
-        camera_type_launch_arg,
+        device_type_launch_arg,
+        interface_type_launch_arg,
         exposure_launch_arg,
         phase_camera,
         launch_stereo_image_proc,
