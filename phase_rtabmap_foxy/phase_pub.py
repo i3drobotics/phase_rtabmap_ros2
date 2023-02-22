@@ -42,13 +42,6 @@ class PhaseCameraNode(Node):
         parser.add_argument('--exposure', type=int, default=25000, help="Exposure value")
         args, unknown = parser.parse_known_args()
         
-        # self.left_serial_ = "40098270"
-        # self.right_serial_ = "40098281"
-        # self.camera_name_ = "746974616e24316"
-        # self.camera_name_ = "Basler acA2440-35uc"
-        # self.left_serial_ = "23638717"
-        # self.right_serial_ = "23638711"
-        
         self.left_serial_ = args.left_serial
         self.right_serial_ = args.right_serial
         self.camera_name_ = args.camera_name
@@ -71,7 +64,6 @@ class PhaseCameraNode(Node):
 
         script_path = os.path.dirname(os.path.realpath(__file__))
         package_name = "phase_rtabmap_foxy"
-        #script_path = "/home/i3dr/dev_ws/src/titania_rtabmap_foxy/titania_rtabmap_foxy"
 
         # Define calibration files
         cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
@@ -131,7 +123,6 @@ class PhaseCameraNode(Node):
         
         # Publish camera name message every 500ms
         self.timer_read = self.create_timer(0.1, self.read_frame)
-        #self.cam_.disconnect()
 
     def yaml_to_camerainfo(self, yaml_file_path):
         # Load data from file
@@ -224,19 +215,9 @@ class PhaseCameraNode(Node):
             disparity = match_result.disparity
             depth = phase.disparity2depth(disparity, self.calibration_.getQ())
 
-
-
             header = Header()
             header.frame_id = "camera_link"
             header.stamp = self.get_clock().now().to_msg()
-
-            # header_dp = Header()
-            # header_dp.frame_id = "depth"
-            # header_dp.stamp = header.stamp
-
-            # header_ci = Header()
-            # header_ci.frame_id = "camera_info"
-            # header_ci.stamp = header.stamp
 
             # header_pc = Header()
             # #header_pc.frame_id = "map"
