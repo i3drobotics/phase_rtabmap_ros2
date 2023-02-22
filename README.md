@@ -30,6 +30,6 @@ ros2 launch phase_rtabmap_launch.py
 Optional launch arguments when use different camera or exposure
 ```bash
 cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy
-ros2 launch phase_rtabmap_launch.py left_serial:=23638717 right_serial:=23638711 camera_name:=Basler acA2440-35uc camera_type:=phobos exposure:=25000
+ros2 launch phase_rtabmap_launch.py left_serial:=23638717 right_serial:=23638711 camera_name:=Basler acA2440-35uc device_type:=phobos interface_type:=usb exposure:=25000
 ```
 ###

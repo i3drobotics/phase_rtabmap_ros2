@@ -37,7 +37,8 @@ class PhaseCameraNode(Node):
         parser.add_argument('--left_serial', type=str, default="40098270", help="Left Serial of Camera")
         parser.add_argument('--right_serial', type=str, default="40098281", help="Right Serial of Camera")
         parser.add_argument('--camera_name', type=str, default="746974616e24316", help="Camera Name of Camera")
-        parser.add_argument('--camera_type', type=str, default="titania", help="titania or phobos")
+        parser.add_argument('--device_type', type=str, default="titania", help="titania or phobos")
+        parser.add_argument('--interface_type', type=str, default="usb", help="usb or gige")
         parser.add_argument('--exposure', type=int, default=25000, help="Exposure value")
         args, unknown = parser.parse_known_args()
         
@@ -52,12 +53,20 @@ class PhaseCameraNode(Node):
         self.right_serial_ = args.right_serial
         self.camera_name_ = args.camera_name
 
-        if args.camera_type == 'titania':
+        if args.device_type == 'titania':
             self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_TITANIA
-        elif args.camera_type == 'phobos':
+        elif args.device_type == 'phobos':
             self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_PHOBOS
+        else:
+            self.device_type_ = phase.stereocamera.CameraDeviceType.DEVICE_TYPE_GENERIC_PYLON
+            
+        if args.interface_type == 'usb':
+            self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_USB
+        elif args.interface_type == 'gige':
+            self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_GIGE
+        else:
+            self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_VIRTUAL
 
-        self.interface_type_ = phase.stereocamera.CameraInterfaceType.INTERFACE_TYPE_USB
         self.cv_bridge = CvBridge()
 
         script_path = os.path.dirname(os.path.realpath(__file__))
@@ -66,8 +75,8 @@ class PhaseCameraNode(Node):
 
         # Define calibration files
         cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
-        left_yaml = os.path.join(cal_folder, "left_24324.yaml")
-        right_yaml = os.path.join(cal_folder, "right_24324.yaml")
+        left_yaml = os.path.join(cal_folder, "left_amrc.yaml")
+        right_yaml = os.path.join(cal_folder, "right_amrc.yaml")
         
         # Define parameters for read process
         self.exposure_value_ = args.exposure
@@ -99,9 +108,9 @@ class PhaseCameraNode(Node):
             self.device_type_, self.interface_type_
         )
 
-        if args.camera_type == 'titania':
+        if args.device_type == 'titania':
             self.cam_ = phase.stereocamera.TitaniaStereoCamera(device_info)
-        elif args.camera_type == 'phase':
+        elif args.device_type == 'phobos':
             self.cam_ = phase.stereocamera.PhobosStereoCamera(device_info)
 
         self.left_camerainfo_ = self.yaml_to_camerainfo(left_yaml)
