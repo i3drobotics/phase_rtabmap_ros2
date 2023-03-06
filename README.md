@@ -18,19 +18,17 @@ git clone -- branch foxy-devel https://github.com/introlab/rtabmap.git src/rtabm
 git clone --branch ros2 https://github.com/introlab/rtabmap_ros.git src/rtabmap_ros
 git clone https://github.com/i3drobotics/phase_rtabmap_foxy.git src/phase_rtabmap_foxy
 sudo apt-get update
-colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+colcon build
 . install/setup.bash
 ```
 
 ## Run RTabmap Scan
 ```bash
-cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy
-ros2 launch phase_rtabmap_launch.py
+ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py 
 ```
 Optional launch arguments when use different camera or exposure
 ```bash
-cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy
-ros2 launch phase_rtabmap_launch.py left_serial:=23638717 right_serial:=23638711 camera_name:=Basler acA2440-35uc device_type:=phobos interface_type:=usb exposure:=25000
+ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py left_serial:=23638717 right_serial:=23638711 camera_name:=Basler acA2440-35uc device_type:=phobos interface_type:=usb exposure:=25000
 ```
 ###
 
