@@ -62,8 +62,8 @@ def generate_launch_description():
     launch_stereo_image_proc = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-                FindPackageShare('phase_rtabmap_foxy'),
-                'stereo_image_proc.launch.py'
+                FindPackageShare('stereo_image_proc'),
+                'launch/stereo_image_proc.launch.py'
             ])
         ]),
     )
@@ -76,8 +76,8 @@ def generate_launch_description():
     launch_rtabmap = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-                FindPackageShare('phase_rtabmap_foxy'),
-                'rtabmap.launch.py'
+                FindPackageShare('rtabmap_ros'),
+                'launch/rtabmap.launch.py'
             ])
         ]),
         launch_arguments={
