@@ -1,5 +1,5 @@
 # cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy/
-# ros2 launch phase_camera_launch.py
+# ros2 launch phase_rtabmap_foxy phase_camera_launch.py
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
