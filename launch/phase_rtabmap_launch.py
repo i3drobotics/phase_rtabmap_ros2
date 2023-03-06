@@ -12,20 +12,12 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
-from launch.substitutions import TextSubstitution
+from launch.substitutions import PathJoinSubstitution, TextSubstitution
+from launch_ros.substitutions import FindPackageShare
 import os
+import numpy
 
 def generate_launch_description():
-
-    print("\n")
-    print("\n")
-    print("\n")
-    print("*********************Current path********************")
-    print(os.path.dirname(os.path.realpath(__file__)))
-    print("*********************Current path********************")
-    print("\n")
-    print("\n")
-    print("\n")
 
     # args that can be set from the command line or a default will be used
     left_serial_launch_arg = DeclareLaunchArgument(
@@ -71,7 +63,10 @@ def generate_launch_description():
     )
     launch_stereo_image_proc = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare('phase_rtabmap_foxy'),
                 'stereo_image_proc.launch.py'
+            ])
         ]),
     )
     tf2 = Node(
@@ -82,7 +77,10 @@ def generate_launch_description():
     )
     launch_rtabmap = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare('phase_rtabmap_foxy'),
                 'rtabmap.launch.py'
+            ])
         ]),
         launch_arguments={
             'args': '--delete_db_on_start',
