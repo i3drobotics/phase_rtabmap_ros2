@@ -18,7 +18,9 @@ git clone -- branch foxy-devel https://github.com/introlab/rtabmap.git src/rtabm
 git clone --branch ros2 https://github.com/introlab/rtabmap_ros.git src/rtabmap_ros
 git clone https://github.com/i3drobotics/phase_rtabmap_foxy.git src/phase_rtabmap_foxy
 sudo apt-get update
-colcon build
+rosdep update && rosdep install --from-paths src --ignore-src -r -y
+export MAKEFLAGS="-j6" # Can be ignored if you have a lot of RAM (>16GB)
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 . install/setup.bash
 ```
 
