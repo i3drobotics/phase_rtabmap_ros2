@@ -8,5 +8,5 @@
 /launch*.log
 /launch/install
 /launch/log
-/launch/__pycache__
+/phase_rtabmap_foxy/__pycache__
 /cal/*.yaml
