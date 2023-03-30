@@ -2,7 +2,6 @@
 # cd ~/dev_ws
 # colcon build --packages-select phase_rtabmap_foxy
 # . install/setup.bash
-# cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy/
 # ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py
 # ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:= usb exposure:=10000
 
