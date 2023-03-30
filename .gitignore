@@ -9,4 +9,3 @@
 /launch/install
 /launch/log
 /phase_rtabmap_foxy/__pycache__
-/cal/*.yaml

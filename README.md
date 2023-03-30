@@ -34,7 +34,7 @@ ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py left_serial:=23638717 rig
 ```
 
 ## Update calibration yaml file
-Calibration yaml files is needed to store in phase_rtabmap_foxy/cal folder before build
+Calibration yaml files are needed to store in phase_rtabmap_foxy/cal folder before build
 Need to check or rename if yaml files are in the name of "left.yaml" and "right.yaml"
 
 ## Troubleshoot for GigE network configuration
