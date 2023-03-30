@@ -66,9 +66,15 @@ class PhaseCameraNode(Node):
         package_name = "phase_rtabmap_foxy"
 
         # Define calibration files
+<<<<<<< HEAD
         cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
         left_yaml = os.path.join(cal_folder, "left.yaml")
         right_yaml = os.path.join(cal_folder, "right.yaml")
+=======
+        cal_folder = os.path.join((os.path.dirname(script_path)), "cal")
+        left_yaml = os.path.join(cal_folder, "left_amrc.yaml")
+        right_yaml = os.path.join(cal_folder, "right_amrc.yaml")
+>>>>>>> cafdd9f8b7325e544ea32e8bb3731d1e202c9da5
         
         # Define parameters for read process
         self.exposure_value_ = args.exposure
