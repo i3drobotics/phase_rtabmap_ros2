@@ -33,6 +33,9 @@ Optional launch arguments when use different camera or exposure value
 ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py left_serial:=23638717 right_serial:=23638711 camera_name:=Basler acA2440-35uc device_type:=phobos interface_type:=usb exposure:=25000
 ```
 
+## Save video of the camera
+ros2 run phase_rtabmap_foxy phase_camera_record_launch.py  left_serial:=23638717 right_serial:=23638711 camera_name:=Basler acA2440-35uc device_type:=phobos interface_type:=usb exposure:=25000
+
 ## Update calibration yaml file
 Calibration yaml files are needed to store in phase_rtabmap_foxy/cal folder before build
 Need to check or rename if yaml files are in the name of "left.yaml" and "right.yaml"
