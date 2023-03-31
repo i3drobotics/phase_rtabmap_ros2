@@ -4,6 +4,7 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
+from launch.actions import ExecuteProcess
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import TextSubstitution
 
@@ -38,7 +39,7 @@ def generate_launch_description():
     
     phase_camera = Node(
         package='phase_rtabmap_foxy',
-        executable='phase_camera',
+        executable='phase_camera_record',
         output="screen",
         arguments=[
             "--left_serial", left_serial_arg,
@@ -49,6 +50,10 @@ def generate_launch_description():
             "--exposure", exposure_arg
             ],
     )
+    rosbag_record = ExecuteProcess(
+        cmd=["ros2", "bag", "record", "-a"],
+        output="screen",
+    )
     return LaunchDescription([
         left_serial_launch_arg,
         right_serial_launch_arg,
@@ -57,4 +62,5 @@ def generate_launch_description():
         interface_type_launch_arg,
         exposure_launch_arg,
         phase_camera,
+        rosbag_record,
     ])
