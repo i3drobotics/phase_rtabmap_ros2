@@ -36,6 +36,9 @@ class PhaseCameraNode(Node):
         super().__init__("phase_camera_record")
         self.count_ = 0
 
+        print ("Numpy version: " + str(np.__version__))
+        print ("Numpy path: " + str(np.__path__))
+
         parser = argparse.ArgumentParser()
         parser.add_argument('--left_serial', type=str, default="40098270", help="Left Serial of Camera")
         parser.add_argument('--right_serial', type=str, default="40098281", help="Right Serial of Camera")
