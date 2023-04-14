@@ -199,9 +199,11 @@ class PhaseCameraNode(Node):
 
     def read_frame(self):
         self.cam_.setExposure(self.exposure_value_)
+        self.cam_.enableHardwareTrigger(False)
         read_result = self.cam_.read()
         if (read_result.valid):
             self.get_logger().info("Stereo result received")
+            print("Framerate: {}".format(self.cam_.getFrameRate()))
             rect_image_pair = self.calibration_.rectify(read_result.left, read_result.right)
             rect_img_left = rect_image_pair.left
             rect_img_right = rect_image_pair.right
