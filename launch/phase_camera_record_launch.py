@@ -9,10 +9,13 @@
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions import DeclareLaunchArgument
 from launch.actions import ExecuteProcess
 from launch.substitutions import LaunchConfiguration
-from launch.substitutions import TextSubstitution
+from launch.substitutions import PathJoinSubstitution, TextSubstitution
+from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
 
@@ -45,7 +48,8 @@ def generate_launch_description():
     
     phase_camera = Node(
         package='phase_rtabmap_foxy',
-        executable='phase_camera_record',
+        executable='phase_camera',
+        name='phase_pub',
         output="screen",
         arguments=[
             "--left_serial", left_serial_arg,
@@ -56,6 +60,25 @@ def generate_launch_description():
             "--exposure", exposure_arg
             ],
     )
+
+    # ros2 launch stereo_image_proc stereo_image_proc.launch.py
+    launch_stereo_image_proc = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare('stereo_image_proc'),
+                'launch/stereo_image_proc.launch.py'
+            ])
+        ]),
+    )
+
+    # ros2 run tf2_ros static_transform_publisher "0 0 0 1.5707963267948966 0 -1.5707963267948966 base_link camera_link
+    tf2 = Node(
+        package='tf2_ros',
+        executable="static_transform_publisher",
+        name="camera_base_link",
+        arguments = ["0", "0", "0", "-1.5707963267948966", "0", "-1.5707963267948966", "base_link", "camera_link"]
+    )
+
     rosbag_record = ExecuteProcess(
         cmd=["ros2", "bag", "record", "-a"],
         output="screen",
@@ -68,5 +91,7 @@ def generate_launch_description():
         interface_type_launch_arg,
         exposure_launch_arg,
         phase_camera,
+        launch_stereo_image_proc,
+        tf2,
         rosbag_record,
     ])
