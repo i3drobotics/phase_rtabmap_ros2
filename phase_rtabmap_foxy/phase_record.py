@@ -7,12 +7,12 @@
  @brief ROS2 foxy phase stereo image publish
 """
 # cd dev_ws
-# colcon build --packages-select phase_rtabmap_foxy
+# colcon build --packages-select phase_rtabmap_ros2
 # . install/setup.bash
-# ros2 run phase_rtabmap_foxy phase_camera_record
+# ros2 run phase_rtabmap_ros2 phase_camera_record
 
 ### With optional parameters ###
-# ros2 run phase_rtabmap_foxy phase_camera_record  left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:=usb exposure:=10000
+# ros2 run phase_rtabmap_ros2 phase_camera_record  left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:=usb exposure:=10000
 
 import rclpy
 from rclpy.node import Node
@@ -69,7 +69,7 @@ class PhaseCameraNode(Node):
         self.cv_bridge = CvBridge()
 
         script_path = os.path.dirname(os.path.realpath(__file__))
-        package_name = "phase_rtabmap_foxy"
+        package_name = "phase_rtabmap_ros2"
 
         # Define calibration files
         

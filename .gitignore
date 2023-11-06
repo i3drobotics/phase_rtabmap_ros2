@@ -8,4 +8,4 @@
 /launch*.log
 /launch/install
 /launch/log
-/phase_rtabmap_foxy/__pycache__
+/phase_rtabmap_ros2/__pycache__
