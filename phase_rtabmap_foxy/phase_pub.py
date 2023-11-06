@@ -68,8 +68,8 @@ class PhaseCameraNode(Node):
 
         # Define calibration files
         cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
-        left_yaml = os.path.join(cal_folder, "left.yaml")
-        right_yaml = os.path.join(cal_folder, "right.yaml")
+        left_yaml = os.path.join(cal_folder, "left24328.yaml")
+        right_yaml = os.path.join(cal_folder, "right24328.yaml")
         
         # Define parameters for read process
         self.exposure_value_ = args.exposure
@@ -86,7 +86,7 @@ class PhaseCameraNode(Node):
             print("Missing or invalid I3DRSGM license. Will use StereoBM")
             stereo_params = phase.stereomatcher.StereoParams(
                 phase.stereomatcher.StereoMatcherType.STEREO_MATCHER_BM,
-                11, 0, 25, False
+                59, -55, 48, True
             )
 
         # Load calibration
@@ -259,8 +259,10 @@ def main(args=None):
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
     phase_camera_node.destroy_node()
-    rclpy.shutdown()
     phase_camera_node.cam_.disconnect()
+    rclpy.shutdown()
+
+    # os.system("rtabmap-export --images --poses_camera --poses_format 11 ~/.ros/rtabmap.db")
 
 
 if __name__ == '__main__':

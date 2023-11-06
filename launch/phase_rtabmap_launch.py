@@ -75,7 +75,7 @@ def generate_launch_description():
     launch_rtabmap = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-                FindPackageShare('rtabmap_ros'),
+                FindPackageShare('rtabmap_launch'),
                 'launch/rtabmap.launch.py'
             ])
         ]),
