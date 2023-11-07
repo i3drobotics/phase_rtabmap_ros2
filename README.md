@@ -9,14 +9,14 @@ https://github.com/i3drobotics/pyphase
 
 ## Build ROS2 workspace
 ```bash
-mkdir -p ~/dev_ws/src
-cd ~/dev_ws
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
 source /opt/ros/humble/setup.bash
-git clone --branch humble https://github.com/ros-perception/image_pipeline.git src/image_pipeline
-git clone --branch humble https://github.com/ros-perception/image_common.git src/image_common
+vcs import --input https://raw.githubusercontent.com/ros2/ros2/humble/ros2.repos src
+rosdep install --from-paths src --ignore-src -y --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
 git clone --branch humble-devel https://github.com/introlab/rtabmap.git src/rtabmap
 git clone --branch humble-devel https://github.com/introlab/rtabmap_ros.git src/rtabmap_ros
-git clone https://github.com/i3drobotics/phase_rtabmap_ros2.git src/phase_rtabmap_ros2
+git clone --branch humble-devel https://github.com/i3drobotics/phase_rtabmap_ros2.git src/phase_rtabmap_ros2
 sudo apt-get update
 rosdep update && rosdep install --from-paths src --ignore-src -r -y
 export MAKEFLAGS="-j6" # Can be ignored if you have a lot of RAM (>16GB)
