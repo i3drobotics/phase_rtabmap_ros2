@@ -4,7 +4,7 @@
  @date 2023-02-21
  @copyright Copyright (c) I3D Robotics Ltd, 2021
  @file phase_pub.py
- @brief ROS2 foxy phase stereo image publish
+ @brief ROS2 humble phase stereo image publish
 """
 # cd dev_ws
 # colcon build --packages-select phase_rtabmap_ros2

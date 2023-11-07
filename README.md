@@ -1,5 +1,5 @@
 # phase_rtabmap_ros2
-Demonstration of mapping with Phase camera in ROS2 foxy.
+Demonstration of mapping with Phase camera in ROS2 humble.
 The package is currently runs on Linux.
 
 ## Install pyphase
@@ -11,7 +11,7 @@ https://github.com/i3drobotics/pyphase
 ```bash
 mkdir -p ~/dev_ws/src
 cd ~/dev_ws
-source /opt/ros/foxy/setup.bash
+source /opt/ros/humble/setup.bash
 git clone --branch humble https://github.com/ros-perception/image_pipeline.git src/image_pipeline
 git clone --branch humble https://github.com/ros-perception/image_common.git src/image_common
 git clone --branch humble-devel https://github.com/introlab/rtabmap.git src/rtabmap
