@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # cd ~/dev_ws
-# colcon build --packages-select phase_rtabmap_foxy
+# colcon build --packages-select phase_rtabmap_ros2
 # . install/setup.bash
-# ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py
-# ros2 launch phase_rtabmap_foxy phase_rtabmap_launch.py left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:=usb exposure:=10000
+# ros2 launch phase_rtabmap_ros2 phase_rtabmap_launch.py
+# ros2 launch phase_rtabmap_ros2 phase_rtabmap_launch.py left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:=usb exposure:=10000
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -45,7 +45,7 @@ def generate_launch_description():
 
     
     phase_camera = Node(
-        package='phase_rtabmap_foxy',
+        package='phase_rtabmap_ros2',
         executable='phase_camera',
         name='phase_pub',
         output="screen",
@@ -75,7 +75,7 @@ def generate_launch_description():
     launch_rtabmap = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
-                FindPackageShare('rtabmap_ros'),
+                FindPackageShare('rtabmap_launch'),
                 'launch/rtabmap.launch.py'
             ])
         ]),

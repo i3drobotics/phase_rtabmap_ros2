@@ -4,13 +4,13 @@
  @date 2023-02-21
  @copyright Copyright (c) I3D Robotics Ltd, 2021
  @file phase_pub.py
- @brief ROS2 foxy phase stereo image publish
+ @brief ROS2 humble phase stereo image publish
 """
 # cd dev_ws
-# colcon build --packages-select phase_rtabmap_foxy
+# colcon build --packages-select phase_rtabmap_ros2
 # . install/setup.bash
-# ros2 run phase_rtabmap_foxy phase_camera 
-# ros2 run phase_rtabmap_foxy phase_camera  left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:= usb exposure:=10000
+# ros2 run phase_rtabmap_ros2 phase_camera 
+# ros2 run phase_rtabmap_ros2 phase_camera  left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:= usb exposure:=10000
 
 import rclpy
 from rclpy.node import Node
@@ -64,12 +64,13 @@ class PhaseCameraNode(Node):
         self.cv_bridge = CvBridge()
 
         script_path = os.path.dirname(os.path.realpath(__file__))
-        package_name = "phase_rtabmap_foxy"
+        home_path = os.path.expanduser('~')
+        package_name = "phase_rtabmap_ros2"
 
         # Define calibration files
-        cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
-        left_yaml = os.path.join(cal_folder, "left.yaml")
-        right_yaml = os.path.join(cal_folder, "right.yaml")
+        cal_folder = os.path.join(home_path, "ros2_ws", "install", package_name, "share", package_name, "cal")
+        left_yaml = os.path.join(cal_folder, "left24328.yaml")
+        right_yaml = os.path.join(cal_folder, "right24328.yaml")
         
         # Define parameters for read process
         self.exposure_value_ = args.exposure
@@ -86,7 +87,7 @@ class PhaseCameraNode(Node):
             print("Missing or invalid I3DRSGM license. Will use StereoBM")
             stereo_params = phase.stereomatcher.StereoParams(
                 phase.stereomatcher.StereoMatcherType.STEREO_MATCHER_BM,
-                11, 0, 25, False
+                59, -55, 48, True
             )
 
         # Load calibration
@@ -259,8 +260,10 @@ def main(args=None):
     # (optional - otherwise it will be done automatically
     # when the garbage collector destroys the node object)
     phase_camera_node.destroy_node()
-    rclpy.shutdown()
     phase_camera_node.cam_.disconnect()
+    rclpy.shutdown()
+
+    # os.system("rtabmap-export --images --poses_camera --poses_format 11 ~/.ros/rtabmap.db")
 
 
 if __name__ == '__main__':
