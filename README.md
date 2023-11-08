@@ -12,10 +12,8 @@ https://github.com/i3drobotics/pyphase
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws
 source /opt/ros/humble/setup.bash
-vcs import --input https://raw.githubusercontent.com/ros2/ros2/humble/ros2.repos src
-sudo apt upgrade
-rosdep update
-rosdep install --from-paths src --ignore-src -y --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
+git clone --branch humble https://github.com/ros-perception/image_common.git src/ros-perception/image_common
+git clone --branch humble https://github.com/ros-perception/image_pipeline.git src/ros-perception/image_pipeline
 git clone https://github.com/introlab/rtabmap.git  src/rtabmap
 git clone --branch humble-devel https://github.com/introlab/rtabmap_ros.git src/rtabmap_ros
 git clone --branch humble-devel https://github.com/i3drobotics/phase_rtabmap_ros2.git src/phase_rtabmap_ros2
