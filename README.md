@@ -1,6 +1,6 @@
 # phase_rtabmap_ros2
 Demonstration of mapping with Phase camera in ROS2 humble.
-This package is tested on Ubuntu22.04.
+This package is tested on Ubuntu 22.04.
 
 ## Install pyphase
 Install pyphase, follow Linux instruction from the link below
