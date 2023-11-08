@@ -58,14 +58,6 @@ def generate_launch_description():
             "--exposure", exposure_arg
             ],
     )
-    launch_stereo_image_proc = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare('stereo_image_proc'),
-                'launch/stereo_image_proc.launch.py'
-            ])
-        ]),
-    )
     tf2 = Node(
         package='tf2_ros',
         executable="static_transform_publisher",
@@ -82,7 +74,7 @@ def generate_launch_description():
         launch_arguments={
             'args': '--delete_db_on_start',
             'frame_id': 'base_link',
-            'rgb_topic': '/left/image_rect_color',
+            'rgb_topic': '/left/image_rect',
             'depth_topic': '/depth/image',
             'camera_info_topic': '/left/camera_info'
         }.items()
@@ -95,7 +87,6 @@ def generate_launch_description():
         interface_type_launch_arg,
         exposure_launch_arg,
         phase_camera,
-        launch_stereo_image_proc,
         tf2,
         launch_rtabmap,
     ])
