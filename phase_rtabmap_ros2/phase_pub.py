@@ -64,10 +64,11 @@ class PhaseCameraNode(Node):
         self.cv_bridge = CvBridge()
 
         script_path = os.path.dirname(os.path.realpath(__file__))
+        home_path = os.path.expanduser('~')
         package_name = "phase_rtabmap_ros2"
 
         # Define calibration files
-        cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
+        cal_folder = os.path.join(home_path, "ros2_ws", "install", package_name, "share", package_name, "cal")
         left_yaml = os.path.join(cal_folder, "left24328.yaml")
         right_yaml = os.path.join(cal_folder, "right24328.yaml")
         
