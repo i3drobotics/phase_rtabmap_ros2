@@ -69,8 +69,8 @@ class PhaseCameraNode(Node):
 
         # Define calibration files
         cal_folder = os.path.join(home_path, "ros2_ws", "install", package_name, "share", package_name, "cal")
-        left_yaml = os.path.join(cal_folder, "left24328.yaml")
-        right_yaml = os.path.join(cal_folder, "right24328.yaml")
+        left_yaml = os.path.join(cal_folder, "left.yaml")
+        right_yaml = os.path.join(cal_folder, "right.yaml")
         
         # Define parameters for read process
         self.exposure_value_ = args.exposure
