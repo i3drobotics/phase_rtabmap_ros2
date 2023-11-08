@@ -66,10 +66,11 @@ class PhaseCameraNode(Node):
         self.cv_bridge = CvBridge()
 
         script_path = os.path.dirname(os.path.realpath(__file__))
+        home_path = os.path.expanduser('~')
         package_name = "phase_rtabmap_foxy"
 
         # Define calibration files
-        cal_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(script_path)))), "share", package_name, "cal")
+        cal_folder = os.path.join(home_path, "ros2_ws", "install", package_name, "share", package_name, "cal")
         left_yaml = os.path.join(cal_folder, "left.yaml")
         right_yaml = os.path.join(cal_folder, "right.yaml")
         
@@ -227,7 +228,7 @@ class PhaseCameraNode(Node):
             # cv2.waitKey(1)
 
             header = Header()
-            header.frame_id = "camera_link"+self.camera_name_[-5:]
+            header.frame_id = "camera_link"
             header.stamp = self.get_clock().now().to_msg()
 
             # header_pc = Header()
