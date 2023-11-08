@@ -27,6 +27,8 @@ import numpy as np
 import yaml
 import argparse
 
+import cv2
+
 # PhaseCameraNode class for camera data capture
 class PhaseCameraNode(Node):
 
@@ -35,12 +37,12 @@ class PhaseCameraNode(Node):
         self.count_ = 0
 
         parser = argparse.ArgumentParser()
-        parser.add_argument('--left_serial', type=str, default="40098270", help="Left Serial of Camera")
-        parser.add_argument('--right_serial', type=str, default="40098281", help="Right Serial of Camera")
-        parser.add_argument('--camera_name', type=str, default="746974616e24316", help="Camera Name of Camera")
-        parser.add_argument('--device_type', type=str, default="titania", help="titania or phobos")
-        parser.add_argument('--interface_type', type=str, default="usb", help="usb or gige")
-        parser.add_argument('--exposure', type=int, default=25000, help="Exposure value")
+        parser.add_argument('--left_serial', type=str, default="24512529", help="Left Serial of Camera")
+        parser.add_argument('--right_serial', type=str, default="23646203", help="Right Serial of Camera")
+        parser.add_argument('--camera_name', type=str, default="70686f626f24320", help="Camera Name of Camera")
+        parser.add_argument('--device_type', type=str, default="phobos", help="titania or phobos")
+        parser.add_argument('--interface_type', type=str, default="gige", help="usb or gige")
+        parser.add_argument('--exposure', type=int, default=10000, help="Exposure value")
         args, unknown = parser.parse_known_args()
         
         self.left_serial_ = args.left_serial
@@ -89,13 +91,6 @@ class PhaseCameraNode(Node):
                 11, 0, 25, False
             )
 
-        # Load calibration
-        self.calibration_ = phase.calib.StereoCameraCalibration.calibrationFromYAML(
-            left_yaml, right_yaml)
-
-        # Create stereo matcher
-        self.matcher_ = phase.stereomatcher.createStereoMatcher(stereo_params)
-
         device_info = phase.stereocamera.CameraDeviceInfo(
             self.left_serial_, self.right_serial_, self.camera_name_,
             self.device_type_, self.interface_type_
@@ -103,15 +98,28 @@ class PhaseCameraNode(Node):
 
         if args.device_type == 'titania':
             self.cam_ = phase.stereocamera.TitaniaStereoCamera(device_info)
+            # left_yaml = os.path.join(cal_folder, "left"+str(self.camera_name_[-5:])+".yaml")
+            # right_yaml = os.path.join(cal_folder, "right"+str(self.camera_name_[-5:])+".yaml")
         elif args.device_type == 'phobos':
             self.cam_ = phase.stereocamera.PhobosStereoCamera(device_info)
+            # left_yaml = os.path.join(cal_folder, "left"+str(self.camera_name_[-5:])+"p.yaml")
+            # right_yaml = os.path.join(cal_folder, "right"+str(self.camera_name_[-5:])+"p.yaml")
+
+        # Load calibration
+        self.calibration_ = phase.calib.StereoCameraCalibration.calibrationFromYAML(
+            left_yaml, right_yaml)
+
+        # Create stereo matcher
+        self.matcher_ = phase.stereomatcher.createStereoMatcher(stereo_params)
 
         self.left_camerainfo_ = self.yaml_to_camerainfo(left_yaml)
         self.right_camerainfo_ = self.yaml_to_camerainfo(right_yaml)
 
         ret = self.cam_.connect()
+        self.cam_.enableHardwareTrigger(False)
         if (ret):
             self.cam_.startCapture()
+            print("Start Capture")
 
         self.pub_img_rawleft_ = self.create_publisher(Image, 'left/image_raw', 100)
         self.pub_img_rawright_ = self.create_publisher(Image, 'right/image_raw', 100)
@@ -199,11 +207,9 @@ class PhaseCameraNode(Node):
 
     def read_frame(self):
         self.cam_.setExposure(self.exposure_value_)
-        self.cam_.enableHardwareTrigger(False)
         read_result = self.cam_.read()
         if (read_result.valid):
             self.get_logger().info("Stereo result received")
-            print("Framerate: {}".format(self.cam_.getFrameRate()))
             rect_image_pair = self.calibration_.rectify(read_result.left, read_result.right)
             rect_img_left = rect_image_pair.left
             rect_img_right = rect_image_pair.right
@@ -217,9 +223,11 @@ class PhaseCameraNode(Node):
             # Find the disparity from matcher
             disparity = match_result.disparity
             depth = phase.disparity2depth(disparity, self.calibration_.getQ())
+            # cv2.imshow("test", disparity)
+            # cv2.waitKey(1)
 
             header = Header()
-            header.frame_id = "camera_link"
+            header.frame_id = "camera_link"+self.camera_name_[-5:]
             header.stamp = self.get_clock().now().to_msg()
 
             # header_pc = Header()
