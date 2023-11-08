@@ -59,16 +59,6 @@ def generate_launch_description():
             ],
     )
 
-    # # ros2 launch stereo_image_proc stereo_image_proc.launch.py
-    # launch_stereo_image_proc = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource([
-    #         PathJoinSubstitution([
-    #             FindPackageShare('stereo_image_proc'),
-    #             'launch/stereo_image_proc.launch.py'
-    #         ])
-    #     ]),
-    # )
-
     # ros2 run tf2_ros static_transform_publisher "0 0 0 1.5707963267948966 0 -1.5707963267948966 base_link camera_link
     tf2 = Node(
         package='tf2_ros',
@@ -101,7 +91,6 @@ def generate_launch_description():
         interface_type_launch_arg,
         exposure_launch_arg,
         phase_camera,
-        # launch_stereo_image_proc,
         tf2,
         launch_rtabmap,
     ])
