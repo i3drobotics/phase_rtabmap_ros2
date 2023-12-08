@@ -15,7 +15,7 @@ source /opt/ros/foxy/setup.bash
 git clone --branch foxy https://github.com/ros-perception/image_pipeline.git src/image_pipeline
 git clone --branch foxy https://github.com/ros-perception/image_common.git src/image_common
 git clone --branch foxy-devel https://github.com/ros-perception/perception_pcl.git src/perception_pcl
-git clone --branch foxy-devel https://github.com/introlab/rtabmap.git src/rtabmap
+git clone https://github.com/introlab/rtabmap.git src/rtabmap
 git clone --branch foxy-devel https://github.com/introlab/rtabmap_ros.git src/rtabmap_ros
 git clone --branch foxy-devel https://github.com/i3drobotics/phase_rtabmap_foxy.git src/phase_rtabmap_foxy
 sudo apt-get update
