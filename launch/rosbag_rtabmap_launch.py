@@ -62,9 +62,9 @@ def generate_launch_description():
         launch_arguments={
             'args': '--delete_db_on_start',
             'frame_id': 'base_link',
-            'rgb_topic': '/camera2/left/image_rect',
-            'depth_topic': '/camera2depth/image',
-            'camera_info_topic': '/camera2/left/camera_info'
+            'rgb_topic': '/left/image_rect',
+            'depth_topic': '/depth/image',
+            'camera_info_topic': '/left/camera_info'
         }.items()
     )
     ])
