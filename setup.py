@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'phase_camera = phase_rtabmap_ros2.phase_pub:main',
             'phase_camera_record = phase_rtabmap_ros2.phase_record:main',
+            'phase_read = phase_rtabmap_ros2.phase_read:main',
         ],
     },
 )
