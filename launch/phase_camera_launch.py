@@ -1,5 +1,5 @@
-# cd ~/dev_ws/install/phase_rtabmap_foxy/share/phase_rtabmap_foxy/
-# ros2 launch phase_rtabmap_foxy phase_camera_launch.py
+# cd ~/dev_ws/install/phase_rtabmap_ros2/share/phase_rtabmap_ros2/
+# ros2 launch phase_rtabmap_ros2 phase_camera_launch.py
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -37,7 +37,7 @@ def generate_launch_description():
     exposure_arg = LaunchConfiguration("exposure")
     
     phase_camera = Node(
-        package='phase_rtabmap_foxy',
+        package='phase_rtabmap_ros2',
         executable='phase_camera',
         output="screen",
         arguments=[

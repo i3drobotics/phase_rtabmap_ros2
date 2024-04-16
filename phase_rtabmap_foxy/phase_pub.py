@@ -7,10 +7,10 @@
  @brief ROS2 foxy phase stereo image publish
 """
 # cd dev_ws
-# colcon build --packages-select phase_rtabmap_foxy
+# colcon build --packages-select phase_rtabmap_ros2
 # . install/setup.bash
-# ros2 run phase_rtabmap_foxy phase_camera 
-# ros2 run phase_rtabmap_foxy phase_camera  left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:= usb exposure:=10000
+# ros2 run phase_rtabmap_ros2 phase_camera 
+# ros2 run phase_rtabmap_ros2 phase_camera  left_serial:=40266661 right_serial:=40298125 camera_name:=746974616e24324 device_type:=titania interface_type:= usb exposure:=10000
 
 import rclpy
 from rclpy.node import Node
@@ -67,7 +67,7 @@ class PhaseCameraNode(Node):
 
         script_path = os.path.dirname(os.path.realpath(__file__))
         home_path = os.path.expanduser('~')
-        package_name = "phase_rtabmap_foxy"
+        package_name = "phase_rtabmap_ros2"
 
         # Define calibration files
         cal_folder = os.path.join(home_path, "ros2_ws", "install", package_name, "share", package_name, "cal")

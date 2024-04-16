@@ -2,7 +2,7 @@ from setuptools import setup
 from glob import glob
 import os
 
-package_name = 'phase_rtabmap_foxy'
+package_name = 'phase_rtabmap_ros2'
 
 setup(
     name=package_name,
@@ -24,8 +24,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'phase_camera = phase_rtabmap_foxy.phase_pub:main',
-            'phase_camera_record = phase_rtabmap_foxy.phase_record:main',
+            'phase_camera = phase_rtabmap_ros2.phase_pub:main',
+            'phase_camera_record = phase_rtabmap_ros2.phase_record:main',
         ],
     },
 )
