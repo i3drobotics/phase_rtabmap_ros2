@@ -9,8 +9,8 @@ https://github.com/i3drobotics/pyphase
 
 ## Build ROS2 workspace
 ```bash
-mkdir -p ~/dev_ws/src
-cd ~/dev_ws
+mkdir -p ~/ros2_ws/src
+cd ~/ros2_ws
 source /opt/ros/foxy/setup.bash
 git clone --branch foxy https://github.com/ros-perception/image_pipeline.git src/image_pipeline
 git clone --branch foxy https://github.com/ros-perception/image_common.git src/image_common
