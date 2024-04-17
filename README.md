@@ -16,7 +16,7 @@ git clone --branch foxy https://github.com/ros-perception/image_pipeline.git src
 git clone --branch foxy https://github.com/ros-perception/image_common.git src/image_common
 git clone --branch foxy-devel https://github.com/ros-perception/perception_pcl.git src/perception_pcl
 git clone https://github.com/introlab/rtabmap.git src/rtabmap
-git clone --branch foxy-devel https://github.com/introlab/rtabmap_ros.git src/rtabmap_ros
+git clone --branch ros2 https://github.com/introlab/rtabmap_ros.git src/rtabmap_ros
 git clone --branch foxy-devel https://github.com/i3drobotics/phase_rtabmap_ros2.git src/phase_rtabmap_ros2
 sudo apt-get update
 rosdep update && rosdep install --from-paths src --ignore-src -r -y
