@@ -117,7 +117,7 @@ class PhaseCameraNode(Node):
         self.right_camerainfo_ = self.yaml_to_camerainfo(right_yaml)
 
         ret = self.cam_.connect()
-        self.cam_.enableHardwareTrigger(False)
+        self.cam_.enableHardwareTrigger(True)
         if (ret):
             self.cam_.startCapture()
             print("Start Capture")
