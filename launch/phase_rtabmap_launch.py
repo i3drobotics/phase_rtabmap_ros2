@@ -64,7 +64,29 @@ def generate_launch_description():
         package='tf2_ros',
         executable="static_transform_publisher",
         name="camera_base_link",
-        arguments = ["0", "0", "0", "-1.5707963267948966", "0", "-1.5707963267948966", "base_link", "camera_link"]
+        arguments = ["0", "0", "0", "-0.785", "0", "-1.5707963267948966", "base_link", "camera_link"]
+    )
+
+        # ros2 run imu_publish_ros2 imu_publisher
+    imu_publish = Node(
+        package='imu_publish_ros2',
+        executable='imu_publisher',
+        output="screen",
+    )
+
+    # ros2 run imu_filter_madgwick imu_filter_madgwick_node 
+    # --ros-args -p fixed_frame:='base_link'
+    imu_filter = Node(
+        package='imu_filter_madgwick',
+        executable='imu_filter_madgwick_node',
+        output="screen",
+        parameters=[
+            {"use_mag": False},
+            {"_publish_tf": True},
+            {"fixed_frame": 'base_link'},
+            # {"reverse_tf": True}
+            # {"_world_frame": 'base_link'}
+        ],
     )
 
     # ros2 launch rtabmap_ros rtabmap.launch.py args:=--delete_db_on_start frame_id:=base_link rgb_topic:=/left/image_rect_color depth_topic:=/depth/image camera_info_topic:=/left/camera_info
@@ -80,7 +102,10 @@ def generate_launch_description():
             'frame_id': 'base_link',
             'rgb_topic': '/left/image_rect',
             'depth_topic': '/depth/image',
-            'camera_info_topic': '/left/camera_info'
+            'camera_info_topic': '/left/camera_info',
+            # 'subscribe_rgbd': 'false',
+            # 'wait_imu_to_init': 'true',
+            # 'imu_topic': '/imu/data'
         }.items()
     )
     return LaunchDescription([
@@ -92,5 +117,7 @@ def generate_launch_description():
         exposure_launch_arg,
         phase_camera,
         tf2,
+        imu_publish,
+        imu_filter,
         launch_rtabmap,
     ])
